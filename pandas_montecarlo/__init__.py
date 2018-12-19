@@ -57,7 +57,7 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
     df.rename(columns={0:'original'}, inplace=True)
 
     cumsum = df.cumsum()
-    total = cumsum[-1:].T
+    total = cumsum.T
     dd = cumsum.min()[cumsum.min() < 0]
     nobust = cumsum[cumsum.min()[cumsum.min() > -abs(bust)].index][-1:]
 
