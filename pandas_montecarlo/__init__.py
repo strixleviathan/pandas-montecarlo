@@ -39,8 +39,8 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
 
     def plot(title="Monte Carlo Simulation Results", figsize=None):
         fig, ax = plt.subplots(figsize=figsize)
-        ax.plot(compound_return, lw=1, alpha=.8)
-        ax.plot(compound_return["original"], lw=3, color="r", alpha=.8, label="Original")
+        ax.plot(cumsum, lw=1, alpha=.8)
+        ax.plot(cumsum["original"], lw=3, color="r", alpha=.8, label="Original")
         ax.axhline(0, color="black")
         ax.legend()
         ax.set_title(title, fontweight="bold")
@@ -56,10 +56,10 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
     df = pd.DataFrame(results).T
     df.rename(columns={0:'original'}, inplace=True)
 
-    compound_return = df.compound()
-    total = compound_return.T
-    dd = compound_return.min()[compound_return.min() < 0]
-    nobust = compound_return[compound_return.min()[compound_return.min() > -abs(bust)].index][-1:]
+    cumsum = df.cumsum()
+    total = cumsum.T
+    dd = cumsum.min()[cumsum.min() < 0]
+    nobust = cumsum[cumsum.min()[cumsum.min() > -abs(bust)].index][-1:]
 
     return __make_object__(**{
         "data": df,
