@@ -39,8 +39,8 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
 
     def plot(title="Monte Carlo Simulation Results", figsize=None):
         fig, ax = plt.subplots(figsize=figsize)
-        ax.plot(cumsum, lw=1, alpha=.8)
-        ax.plot(cumsum["original"], lw=3, color="r", alpha=.8, label="Original")
+        ax.plot(compound_return, lw=1, alpha=.8)
+        ax.plot(compound_return["original"], lw=3, color="r", alpha=.8, label="Original")
         ax.axhline(0, color="black")
         ax.legend()
         ax.set_title(title, fontweight="bold")
