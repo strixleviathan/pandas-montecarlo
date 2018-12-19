@@ -56,10 +56,10 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
     df = pd.DataFrame(results).T
     df.rename(columns={0:'original'}, inplace=True)
 
-    cumsum = df.cumsum()
-    total = cumsum.T
-    dd = cumsum.min()[cumsum.min() < 0]
-    nobust = cumsum[cumsum.min()[cumsum.min() > -abs(bust)].index][-1:]
+    compound_return = df.compound()
+    total = compound_return.T
+    dd = compound_return.min()[compound_return.min() < 0]
+    nobust = compound_return[compound_return.min()[compound_return.min() > -abs(bust)].index][-1:]
 
     return __make_object__(**{
         "data": df,
