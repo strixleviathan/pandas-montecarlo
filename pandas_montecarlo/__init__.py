@@ -58,8 +58,10 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
 
     compound = df.add(1).cumprod()-1
     total = compound
-    dd = compound.min()[compound.min() < 0]
+    nav = 100 * compound.add(1)
+    dd = nav / nav.cummax() - 1
     nobust = compound[compound.min()[compound.min() > -abs(bust)].index][-1:]
+
 
     return __make_object__(**{
         "data": df,
@@ -69,16 +71,16 @@ def montecarlo(series, sims=100, bust=-1, goal=0):
             "mean": round(total.mean().values[0],4),
             "median": round(total.median().values[0],4),
             "std": round(total.std().values[0],4),
-            "maxdd": round(dd.min(),4),
+            "maxdd": round(dd.min().min(),4),
             "bust": len(dd[dd <= -abs(bust)]) / sims,
             "goal": (nobust >= abs(goal)).sum().sum() / sims,
         },
         "maxdd": {
-            "max": round(dd.min(),4),
-            "min": round(dd.max(),4),
-            "mean": round(dd.mean(),4),
-            "median": round(dd.median(),4),
-            "std": round(dd.std(),4)
+            "max": round(dd.min().min(),4),
+            "min": round(dd.max().max(),4),
+            "mean": round(dd.mean().mean(),4),
+            "median": round(dd.median().median(),4),
+            "std": round(dd.std().mean(),4)
         },
         "plot": plot
     })
